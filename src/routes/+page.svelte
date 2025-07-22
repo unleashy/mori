@@ -15,7 +15,7 @@
 </header>
 
 <main>
-  <p>Hello, world.</p>
+  <canvas width="500" height="500"></canvas>
 </main>
 
 <style>
@@ -33,5 +33,13 @@
   .subtitle {
     color: var(--text-deemphasis);
     font-size: var(--font-size_1);
+  }
+
+  canvas {
+    width: 75vmin;
+    aspect-ratio: 1;
+
+    background: var(--grey-2);
+    border: 1px solid var(--grey-6);
   }
 </style>
