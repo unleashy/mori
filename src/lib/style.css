@@ -1,0 +1,23 @@
+@import "tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0 solid;
+  overflow-wrap: anywhere;
+}
+
+html {
+  background: var(--bg-global);
+  color: var(--bg-global-contrast);
+  color-scheme: light dark;
+
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-synthesis: none;
+  font-weight: var(--weight_0);
+  line-height: var(--line-height_0);
+}

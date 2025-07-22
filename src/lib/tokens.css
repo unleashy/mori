@@ -1,0 +1,73 @@
+:root {
+  /* Fonts */
+  --font-sans: "Kanchenjunga", system-ui, sans-serif;
+
+  /* Line styles */
+  --line-height_-1: 1.1;
+  --line-height_0: 1.5;
+  --line-length: 80ch;
+
+  /* Weights */
+  --weight_0: 400;
+  --weight_1: 500;
+  --weight_2: 600;
+  --weight_3: 700;
+
+  /* Font sizes */
+  --font-size_-1: 0.875rem;
+  --font-size_0: 1rem;
+  --font-size_1: 1.1rem;
+  --font-size_2: 1.25rem;
+  --font-size_3: 1.5rem;
+
+  /* Generic sizes */
+  --size_-2: 0.25rem;
+  --size_-1: 0.5rem;
+  --size_0: 1rem;
+  --size_1: 1.25rem;
+  --size_2: 1.5rem;
+  --size_3: 1.75rem;
+  --size_4: 2rem;
+  --size_5: 3rem;
+  --size_6: 4rem;
+  --size_7: 5rem;
+  --size_8: 7.5rem;
+  --size_9: 10rem;
+  --size_10: 15rem;
+  --size_11: 20rem;
+
+  --size-fluid_4: clamp(1rem, 0.1689rem + 2.1448vw, 2rem);
+  --size-fluid_6x: clamp(1rem, -1.4933rem + 6.4343vw, 4rem);
+  --size-fluid_6y: clamp(1.33rem, -1.4933rem + 6.4343vw, 4rem);
+
+  /* Generic colours */
+  --green-1: oklch(98.6% 0.0043 157.7);
+  --green-2: oklch(97.3% 0.0091 157.7);
+  --green-3: oklch(94.9% 0.0229 157.7);
+  --green-4: oklch(92.2% 0.0364 157.7);
+  --green-5: oklch(88.9% 0.0497 157.7);
+  --green-6: oklch(84.6% 0.0646 157.7);
+  --green-7: oklch(78.6% 0.084 157.7);
+  --green-8: oklch(70.2% 0.1125 157.7);
+  --green-9: oklch(64.1% 0.1329 157.7);
+  --green-10: oklch(60% 0.1265 157.7);
+  --green-11: oklch(51.7% 0.1329 157.7);
+  --green-12: oklch(32.2% 0.0475 157.7);
+
+  --grey-1: oklch(98.4% 0.0025 171.6);
+  --grey-2: oklch(97.2% 0.0026 171.6);
+  --grey-3: oklch(94.5% 0.0034 171.6);
+  --grey-4: oklch(92.1% 0.0035 171.6);
+  --grey-5: oklch(89.8% 0.004 171.6);
+  --grey-6: oklch(87.4% 0.004 171.6);
+  --grey-7: oklch(83.9% 0.0043 171.6);
+  --grey-8: oklch(78% 0.0052 171.6);
+  --grey-9: oklch(62.7% 0.0103 171.6);
+  --grey-10: oklch(59.2% 0.0096 171.6);
+  --grey-11: oklch(48.9% 0.0077 171.6);
+  --grey-12: oklch(24% 0.012 171.6);
+
+  /* Applied colours */
+  --bg-global: var(--grey-1);
+  --bg-global-contrast: var(--grey-12);
+}
