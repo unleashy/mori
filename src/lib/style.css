@@ -21,3 +21,7 @@ html {
   font-weight: var(--weight_0);
   line-height: var(--line-height_0);
 }
+
+[lang="ja"] {
+  font-family: "Kiwi Maru";
+}

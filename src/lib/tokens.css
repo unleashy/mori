@@ -70,4 +70,6 @@
   /* Applied colours */
   --bg-global: var(--grey-1);
   --bg-global-contrast: var(--grey-12);
+
+  --text-deemphasis: var(--grey-11);
 }

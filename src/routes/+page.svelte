@@ -4,17 +4,14 @@
 </script>
 
 <svelte:head>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400&display=swap&text=森+Mori"
-    rel="stylesheet"
-  />
   <title>森 Mori</title>
 </svelte:head>
 
 <header>
-  <h1><span lang="ja">森</span> Mori</h1>
+  <h1>
+    <span lang="ja">森</span>&nbsp;Mori
+    <span class="subtitle">a forest simulation</span>
+  </h1>
 </header>
 
 <main>
@@ -33,7 +30,8 @@
     font-weight: var(--weight_0);
   }
 
-  [lang="ja"] {
-    font-family: "Kiwi Maru";
+  .subtitle {
+    color: var(--text-deemphasis);
+    font-size: var(--font-size_1);
   }
 </style>
