@@ -16,12 +16,32 @@ html {
   color-scheme: light dark;
 
   font-family: var(--font-sans);
-  font-size: 18px;
+  font-size: 16px;
   font-synthesis: none;
   font-weight: var(--weight_0);
   line-height: var(--line-height_0);
 }
 
 [lang="ja"] {
-  font-family: "Kiwi Maru";
+  font-family: "Kiwi Maru", var(--font-sans);
+}
+
+input,
+label,
+button {
+  display: block;
+  font-family: inherit;
+  line-height: inherit;
+}
+
+input,
+button {
+  font-size: var(--font-size_-1);
+}
+
+.flow {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  row-gap: var(--flow-size, var(--size_0));
 }

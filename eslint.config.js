@@ -1,3 +1,10 @@
 import config from "@unleashy/eslint/svelte";
 
-export default config(import.meta.dirname);
+export default [
+  ...config(import.meta.dirname),
+  {
+    rules: {
+      "unicorn/prefer-global-this": "off",
+    },
+  },
+];
