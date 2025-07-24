@@ -1,6 +1,6 @@
 <script lang="ts">
   import Settings from "$lib/Settings.svelte";
-  import Field from "$lib/Field.svelte";
+  import FieldUi from "$lib/FieldUi.svelte";
   import "@fontsource/kanchenjunga/latin.css";
   import "$lib/style.css";
 
@@ -26,7 +26,7 @@
 </header>
 
 <main>
-  <Field size={FIELD_SIZE} />
+  <FieldUi size={FIELD_SIZE} />
 
   <div class="flow">
     <details open>
