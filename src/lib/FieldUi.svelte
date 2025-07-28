@@ -1,31 +1,58 @@
 <script lang="ts">
   import type { Attachment } from "svelte/attachments";
+  import type { Field } from "$lib/field.ts";
+  import { Tree, Bear } from "$lib/entity.ts";
 
   interface Props {
-    size: number;
+    field: Field;
   }
 
-  const { size }: Props = $props();
+  const { field }: Props = $props();
 
-  const CELL_SIZE = 50;
-  const renderSize = $derived(CELL_SIZE * size);
+  const RENDER_SIZE = 500;
+  const cellSize = $derived(RENDER_SIZE / field.size);
+
+  const render = (ctx: CanvasRenderingContext2D) => {
+    ctx.clearRect(0, 0, RENDER_SIZE, RENDER_SIZE);
+
+    for (let [x, y, entity] of field.iterRowMajor()) {
+      if (!entity) continue;
+
+      ctx.fillStyle =
+        entity instanceof Tree
+          ? "#01a03b"
+          : entity instanceof Bear
+            ? "#CEA37E"
+            : /* entity is Ljack */ "#e0033b";
+      ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+    }
+  };
 
   let devicePixelRatio = $state(1);
   const canvasAtt: Attachment<HTMLCanvasElement> = (canvas) => {
     canvas.style.width = `calc(75vmin * ${devicePixelRatio})`;
-    canvas.width = renderSize * devicePixelRatio;
-    canvas.height = renderSize * devicePixelRatio;
+    canvas.width = RENDER_SIZE * devicePixelRatio;
+    canvas.height = RENDER_SIZE * devicePixelRatio;
 
     let ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("no context");
 
     ctx.scale(devicePixelRatio, devicePixelRatio);
+
+    let rafId: number | undefined;
+    const rafLoop = () => {
+      rafId = requestAnimationFrame(rafLoop);
+      render(ctx);
+    };
+
+    rafId = requestAnimationFrame(rafLoop);
+    return () => cancelAnimationFrame(rafId as number);
   };
 </script>
 
 <svelte:window bind:devicePixelRatio />
 
-<canvas width={renderSize} height={renderSize} {@attach canvasAtt}></canvas>
+<canvas width={RENDER_SIZE} height={RENDER_SIZE} {@attach canvasAtt}></canvas>
 
 <style>
   canvas {

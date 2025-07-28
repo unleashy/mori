@@ -1,17 +1,18 @@
 <script lang="ts">
   interface Props {
+    onGen: () => void;
     amounts: {
       tree: number;
       bear: number;
       ljack: number;
     };
-    maxAmount: number;
   }
 
-  let { amounts = $bindable(), maxAmount }: Props = $props();
+  let { onGen, amounts = $bindable() }: Props = $props();
 
+  const MAX_PCT = 100;
   let totalAmount = $derived(amounts.tree + amounts.bear + amounts.ljack);
-  let emptyAmount = $derived(maxAmount - totalAmount);
+  let emptyAmount = $derived(MAX_PCT - totalAmount);
 
   let maxima = $derived({
     tree: amounts.tree + emptyAmount,
@@ -28,7 +29,7 @@
 
 <div class="flow" style:--flow-size="var(--size_-1)">
   <label class="flow" style:--flow-size="var(--size_-2)">
-    <span>Amount of <span lang="ja">木</span> trees:</span>
+    <span><span lang="ja">木</span> tree coverage (%):</span>
     <input
       id="tree-amount"
       type="number"
@@ -39,7 +40,7 @@
   </label>
 
   <label class="flow" style:--flow-size="var(--size_-2)">
-    <span>Amount of <span lang="ja">熊</span> bears:</span>
+    <span><span lang="ja">熊</span> bear amount (%):</span>
     <input
       id="bear-amount"
       type="number"
@@ -50,7 +51,7 @@
   </label>
 
   <label class="flow" style:--flow-size="var(--size_-2)">
-    <span>Amount of <span lang="ja">材</span> lumberjacks:</span>
+    <span><span lang="ja">材</span> lumberjack amount (%):</span>
     <input
       id="ljack-amount"
       type="number"
@@ -65,14 +66,13 @@
   <p>
     Total occupancy:
     <output for="tree-amount bear-amount ljack-amount">
-      {totalAmount}
+      {totalAmount}%
     </output>
-    out of {maxAmount}
   </p>
 
-  <p>Empty cells: <output>{maxAmount - totalAmount}</output></p>
+  <p>Empty cells: <output>{MAX_PCT - totalAmount}%</output></p>
 
-  <button type="button">Start simulation</button>
+  <button type="button" onclick={() => onGen()}>Generate map</button>
 </div>
 
 <style>

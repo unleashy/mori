@@ -1,17 +1,22 @@
 <script lang="ts">
+  import { empty, generate } from "$lib/field.ts";
   import Settings from "$lib/Settings.svelte";
   import FieldUi from "$lib/FieldUi.svelte";
   import "@fontsource/kanchenjunga/latin.css";
   import "$lib/style.css";
 
-  const FIELD_SIZE = 10;
-  const MAX_AMOUNT = FIELD_SIZE * FIELD_SIZE;
-
   let amounts = $state({
-    tree: 30,
-    bear: 20,
-    ljack: 10,
+    tree: 40,
+    bear: 5,
+    ljack: 2.5,
   });
+
+  const FIELD_SIZE = 50;
+  let field = $state(empty(FIELD_SIZE));
+
+  const onGen = () => {
+    field = generate(FIELD_SIZE, amounts);
+  };
 </script>
 
 <svelte:head>
@@ -26,18 +31,18 @@
 </header>
 
 <main>
-  <FieldUi size={FIELD_SIZE} />
+  <FieldUi {field} />
 
   <div class="flow">
     <details open>
       <summary>Settings</summary>
-      <Settings bind:amounts maxAmount={MAX_AMOUNT} />
+      <Settings {onGen} bind:amounts />
     </details>
 
     <details>
-      <summary>Stats</summary>
+      <summary>Simulation</summary>
 
-      <p>stats</p>
+      <p>play/pause/step goes here</p>
     </details>
   </div>
 </main>

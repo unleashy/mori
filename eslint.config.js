@@ -5,6 +5,7 @@ export default [
   {
     rules: {
       "unicorn/prefer-global-this": "off",
+      "no-unused-private-class-members": "off",
     },
   },
 ];
