@@ -71,11 +71,17 @@ class ArrayField implements Field {
   }
 
   get(x: number, y: number): Entity | undefined {
-    return this.#cells[this.#toIndex(x, y)];
+    if (this.#isInBounds(x, y)) {
+      return this.#cells[this.#toIndex(x, y)];
+    } else {
+      return undefined;
+    }
   }
 
   set(x: number, y: number, entity: Entity | undefined): void {
-    this.#cells[this.#toIndex(x, y)] = entity;
+    if (this.#isInBounds(x, y)) {
+      this.#cells[this.#toIndex(x, y)] = entity;
+    }
   }
 
   get size(): number {
@@ -88,6 +94,10 @@ class ArrayField implements Field {
       let y = Math.floor(i / this.size);
       yield [x, y, this.#cells[i]];
     }
+  }
+
+  #isInBounds(x: number, y: number): boolean {
+    return 0 <= x && x <= this.#size && 0 <= y && y <= this.#size;
   }
 
   #toIndex(x: number, y: number): number {

@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { onDestroy } from "svelte";
   import { empty, generate } from "$lib/field.ts";
+  import { step } from "$lib/engine.ts";
   import Settings from "$lib/Settings.svelte";
   import FieldUi from "$lib/FieldUi.svelte";
   import Controls from "$lib/Controls.svelte";
@@ -12,21 +14,35 @@
     ljack: 2.5,
   });
 
+  let controlsOpen = $state(false);
+  let playing = $state(false);
+
   const FIELD_SIZE = 50;
   let field = $state(empty(FIELD_SIZE));
-
-  let controlsOpen = $state(false);
 
   const onGen = () => {
     field = generate(FIELD_SIZE, amounts);
     controlsOpen = true;
+    playing = false;
   };
 
-  const onPlay = () => {};
+  const onStep = () => {
+    step(field);
+  };
 
-  const onPause = () => {};
+  const PLAY_SPEED_MS = 200;
+  let playTimer: number | undefined = $state();
+  $effect(() => {
+    if (playing) {
+      playTimer = setInterval(onStep, PLAY_SPEED_MS);
+    } else {
+      clearInterval(playTimer);
+    }
 
-  const onStep = () => {};
+    return () => {
+      clearInterval(playTimer);
+    };
+  });
 </script>
 
 <svelte:head>
@@ -51,7 +67,7 @@
 
     <details bind:open={controlsOpen}>
       <summary>Simulation</summary>
-      <Controls {onPlay} {onPause} {onStep} />
+      <Controls bind:playing {onStep} />
     </details>
   </div>
 </main>

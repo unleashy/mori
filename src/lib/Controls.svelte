@@ -4,27 +4,18 @@
   import StepIcon from "$lib/StepIcon.svelte";
 
   interface Props {
-    onPlay: () => void;
-    onPause: () => void;
+    playing: boolean;
     onStep: () => void;
   }
 
-  let { onPlay, onPause, onStep }: Props = $props();
+  let { playing = $bindable(), onStep }: Props = $props();
 
-  let playing = $state(false);
   const togglePlaying = () => {
-    if (playing) {
-      playing = false;
-      onPause();
-    } else {
-      playing = true;
-      onPlay();
-    }
+    playing = !playing;
   };
 
   const step = () => {
     playing = false;
-    onPause();
     onStep();
   };
 </script>

@@ -18,12 +18,7 @@
     for (let [x, y, entity] of field.iterRowMajor()) {
       if (!entity) continue;
 
-      ctx.fillStyle =
-        entity instanceof Tree
-          ? "#01a03b"
-          : entity instanceof Bear
-            ? "#CEA37E"
-            : /* entity is Ljack */ "#e0033b";
+      ctx.fillStyle = entity.colour;
       ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
     }
   };
