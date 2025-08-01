@@ -2,6 +2,7 @@
   import { empty, generate } from "$lib/field.ts";
   import Settings from "$lib/Settings.svelte";
   import FieldUi from "$lib/FieldUi.svelte";
+  import Controls from "$lib/Controls.svelte";
   import "@fontsource/kanchenjunga/latin.css";
   import "$lib/style.css";
 
@@ -14,9 +15,18 @@
   const FIELD_SIZE = 50;
   let field = $state(empty(FIELD_SIZE));
 
+  let controlsOpen = $state(false);
+
   const onGen = () => {
     field = generate(FIELD_SIZE, amounts);
+    controlsOpen = true;
   };
+
+  const onPlay = () => {};
+
+  const onPause = () => {};
+
+  const onStep = () => {};
 </script>
 
 <svelte:head>
@@ -39,10 +49,9 @@
       <Settings {onGen} bind:amounts />
     </details>
 
-    <details>
+    <details bind:open={controlsOpen}>
       <summary>Simulation</summary>
-
-      <p>play/pause/step goes here</p>
+      <Controls {onPlay} {onPause} {onStep} />
     </details>
   </div>
 </main>

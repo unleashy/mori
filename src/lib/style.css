@@ -37,6 +37,55 @@ button {
 input,
 button {
   font-size: var(--font-size_-1);
+  border-radius: 5px;
+
+  transition:
+    100ms border-color,
+    100ms background-color;
+}
+
+button {
+  position: relative;
+  min-height: 5ex;
+
+  margin-block-start: var(--size_-1);
+  padding-block: var(--size_-2);
+  padding-inline: var(--size_0);
+
+  color: var(--button-text, var(--grey-12));
+  background: var(--button-bg, white);
+  border: var(--button-border, 1px solid var(--grey-6));
+
+  font-weight: var(--weight_2);
+
+  &:hover,
+  &:focus {
+    background: var(--button-bg-hover, var(--grey-3));
+    border: var(--button-border-hover, 1px solid var(--grey-8));
+  }
+
+  &:active {
+    color: var(--button-text-active, var(--grey-11));
+    top: 1px;
+  }
+}
+
+button:has(.icon) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding-block: var(--size_-1);
+}
+
+[data-button-kind="primary"] {
+  --button-text: var(--grey-1);
+  --button-bg: var(--green-9);
+  --button-bg-hover: var(--green-10);
+  --button-text-active: var(--grey-6);
+  --button-border: none;
+  --button-border-hover: none;
 }
 
 .flow {

@@ -72,18 +72,15 @@
 
   <p>Empty cells: <output>{MAX_PCT - totalAmount}%</output></p>
 
-  <button type="button" onclick={() => onGen()}>Generate map</button>
+  <button type="button" onclick={() => onGen()} data-button-kind="primary">
+    Generate map
+  </button>
 </div>
 
 <style>
   input,
   label {
     display: inline;
-  }
-
-  input,
-  button {
-    border-radius: 5px;
   }
 
   input {
@@ -98,30 +95,6 @@
     &:focus {
       border-color: var(--grey-8);
       background: var(--grey-1);
-    }
-  }
-
-  button {
-    position: relative;
-    min-height: 5ex;
-
-    margin-block-start: var(--size_-1);
-    padding-block: var(--size_-2);
-    padding-inline: var(--size_0);
-
-    color: var(--grey-1);
-    background: var(--green-9);
-
-    font-weight: var(--weight_2);
-
-    &:hover,
-    &:focus {
-      background: var(--green-10);
-    }
-
-    &:active {
-      color: var(--grey-6);
-      top: 1px;
     }
   }
 
