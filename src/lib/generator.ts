@@ -7,7 +7,7 @@ export interface Amounts {
   ljack: number;
 }
 
-export function generate(size: number, amounts: Amounts): Field<Entity> {
+export function generate(size: number, amounts: Amounts): Field {
   let maxCells = size * size;
   return generateAbsolute(size, {
     tree: Math.round((amounts.tree / 100) * maxCells),
@@ -16,7 +16,7 @@ export function generate(size: number, amounts: Amounts): Field<Entity> {
   });
 }
 
-function generateAbsolute(size: number, amounts: Amounts): Field<Entity> {
+function generateAbsolute(size: number, amounts: Amounts): Field {
   let maxCells = size * size;
   let totalAmount = amounts.tree + amounts.bear + amounts.ljack;
   let emptyCells = maxCells - totalAmount;

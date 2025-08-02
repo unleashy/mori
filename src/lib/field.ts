@@ -1,28 +1,26 @@
-export interface Field<T> {
+import { type Entity } from "$lib/entity.ts";
+
+export interface Field {
   readonly size: number;
 
-  get(x: number, y: number): T | undefined;
-  set(x: number, y: number, entity: T | undefined): void;
+  get(x: number, y: number): Entity | undefined;
+  set(x: number, y: number, entity: Entity | undefined): void;
 
-  iterRowMajor(): IterableIterator<[number, number, T | undefined]>;
+  iterRowMajor(): IterableIterator<[number, number, Entity | undefined]>;
 }
 
-export interface Neighbours<T> {
-  readonly n: T | undefined;
-  readonly ne: T | undefined;
-  readonly e: T | undefined;
-  readonly se: T | undefined;
-  readonly s: T | undefined;
-  readonly sw: T | undefined;
-  readonly w: T | undefined;
-  readonly nw: T | undefined;
+export interface Neighbours {
+  readonly n: Entity | undefined;
+  readonly ne: Entity | undefined;
+  readonly e: Entity | undefined;
+  readonly se: Entity | undefined;
+  readonly s: Entity | undefined;
+  readonly sw: Entity | undefined;
+  readonly w: Entity | undefined;
+  readonly nw: Entity | undefined;
 }
 
-export function neighbours<T>(
-  field: Field<T>,
-  x: number,
-  y: number,
-): Neighbours<T> {
+export function neighbours(field: Field, x: number, y: number): Neighbours {
   return {
     n: field.get(x, y - 1),
     s: field.get(x, y + 1),
@@ -35,11 +33,11 @@ export function neighbours<T>(
   };
 }
 
-export class ArrayField<T> implements Field<T> {
+export class ArrayField implements Field {
   readonly #size: number;
-  #cells: Array<T | undefined>;
+  #cells: Array<Entity | undefined>;
 
-  constructor(size: number, cells: Array<T | undefined>) {
+  constructor(size: number, cells: Array<Entity | undefined>) {
     if (cells.length !== size * size) {
       throw new Error("cell length does not match given size");
     }
@@ -48,7 +46,7 @@ export class ArrayField<T> implements Field<T> {
     this.#cells = cells;
   }
 
-  get(x: number, y: number): T | undefined {
+  get(x: number, y: number): Entity | undefined {
     if (this.#isInBounds(x, y)) {
       return this.#cells[this.#toIndex(x, y)];
     } else {
@@ -56,7 +54,7 @@ export class ArrayField<T> implements Field<T> {
     }
   }
 
-  set(x: number, y: number, entity: T | undefined): void {
+  set(x: number, y: number, entity: Entity | undefined): void {
     if (this.#isInBounds(x, y)) {
       this.#cells[this.#toIndex(x, y)] = entity;
     }
@@ -66,7 +64,7 @@ export class ArrayField<T> implements Field<T> {
     return this.#size;
   }
 
-  *iterRowMajor(): IterableIterator<[number, number, T | undefined]> {
+  *iterRowMajor(): IterableIterator<[number, number, Entity | undefined]> {
     for (let i = 0; i < this.#cells.length; i++) {
       let x = i % this.size;
       let y = Math.floor(i / this.size);
@@ -83,7 +81,7 @@ export class ArrayField<T> implements Field<T> {
   }
 }
 
-export class EmptyField implements Field<undefined> {
+export class EmptyField implements Field {
   readonly #size: number;
 
   constructor(size: number) {

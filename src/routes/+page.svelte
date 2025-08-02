@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { Entity } from "$lib/entity.ts";
   import { type Field, EmptyField } from "$lib/field.ts";
   import { generate } from "$lib/generator.ts";
+  import { TreeSystem } from "$lib/system.ts";
   import { step } from "$lib/engine.ts";
   import Settings from "$lib/Settings.svelte";
   import FieldUi from "$lib/FieldUi.svelte";
@@ -19,7 +19,7 @@
   let playing = $state(false);
 
   const FIELD_SIZE = 50;
-  let field: Field<Entity> = $state(new EmptyField(FIELD_SIZE));
+  let field: Field = $state(new EmptyField(FIELD_SIZE));
 
   const onGen = () => {
     field = generate(FIELD_SIZE, amounts);
@@ -27,8 +27,9 @@
     playing = false;
   };
 
+  const systems = Object.freeze([new TreeSystem()]);
   const onStep = () => {
-    step(field);
+    step(systems, field);
   };
 
   const PLAY_SPEED_MS = 200;

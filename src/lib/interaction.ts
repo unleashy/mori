@@ -1,23 +1,23 @@
 import { type Field } from "$lib/field.ts";
 
-export interface Interaction<T> {
-  step(field: Field<T>): void;
+export interface Interaction {
+  step(field: Field): void;
 }
 
-export class NullInteraction implements Interaction<never> {
+export class NullInteraction implements Interaction {
   step() {
     /* no-op */
   }
 }
 
-export class CompositeInteraction<T> implements Interaction<T> {
-  readonly #interactions: ReadonlyArray<Interaction<T>>;
+export class CompositeInteraction implements Interaction {
+  readonly #interactions: readonly Interaction[];
 
-  constructor(...interactions: Array<Interaction<T>>) {
+  constructor(...interactions: Interaction[]) {
     this.#interactions = interactions;
   }
 
-  step(field: Field<T>): void {
+  step(field: Field): void {
     for (let interaction of this.#interactions) {
       interaction.step(field);
     }
