@@ -3,8 +3,28 @@ export interface Entity {
 }
 
 export class Tree implements Entity {
+  #age = 12;
+
   get colour() {
-    return "#01a03b";
+    if (this.isSapling) {
+      return "#6eeb83";
+    } else if (this.isElder) {
+      return "#005400";
+    } else {
+      return "#01a03b";
+    }
+  }
+
+  ageUp() {
+    this.#age += 1;
+  }
+
+  get isSapling(): boolean {
+    return this.#age < 12;
+  }
+
+  get isElder(): boolean {
+    return this.#age >= 48;
   }
 }
 

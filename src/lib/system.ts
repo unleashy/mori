@@ -10,6 +10,7 @@ export class TreeSystem implements System {
   step(tree: Entity, neighbours: Neighbours): Interaction | undefined {
     if (!(tree instanceof Tree)) return undefined;
 
+    tree.ageUp();
     return new NullInteraction();
   }
 }
