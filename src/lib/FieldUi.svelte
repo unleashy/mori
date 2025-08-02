@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { Attachment } from "svelte/attachments";
   import type { Field } from "$lib/field.ts";
-  import { Tree, Bear } from "$lib/entity.ts";
+  import type { Entity } from "$lib/entity.ts";
 
   interface Props {
-    field: Field;
+    field: Field<Entity>;
   }
 
   const { field }: Props = $props();

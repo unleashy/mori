@@ -1,67 +1,45 @@
-import { Bear, type Entity, Ljack, Tree } from "$lib/entity.ts";
-
-export interface Field {
+export interface Field<T> {
   readonly size: number;
 
-  get(x: number, y: number): Entity | undefined;
-  set(x: number, y: number, entity: Entity | undefined): void;
+  get(x: number, y: number): T | undefined;
+  set(x: number, y: number, entity: T | undefined): void;
 
-  iterRowMajor(): IterableIterator<[number, number, Entity | undefined]>;
+  iterRowMajor(): IterableIterator<[number, number, T | undefined]>;
 }
 
-export interface Amounts {
-  tree: number;
-  bear: number;
-  ljack: number;
+export interface Neighbours<T> {
+  readonly n: T | undefined;
+  readonly ne: T | undefined;
+  readonly e: T | undefined;
+  readonly se: T | undefined;
+  readonly s: T | undefined;
+  readonly sw: T | undefined;
+  readonly w: T | undefined;
+  readonly nw: T | undefined;
 }
 
-export function generate(size: number, amounts: Amounts): Field {
-  let maxCells = size * size;
-  return generateAbsolute(size, {
-    tree: Math.round((amounts.tree / 100) * maxCells),
-    bear: Math.round((amounts.bear / 100) * maxCells),
-    ljack: Math.round((amounts.ljack / 100) * maxCells),
-  });
+export function neighbours<T>(
+  field: Field<T>,
+  x: number,
+  y: number,
+): Neighbours<T> {
+  return {
+    n: field.get(x, y - 1),
+    s: field.get(x, y + 1),
+    w: field.get(x - 1, y),
+    e: field.get(x + 1, y),
+    nw: field.get(x - 1, y - 1),
+    ne: field.get(x + 1, y - 1),
+    sw: field.get(x - 1, y + 1),
+    se: field.get(x + 1, y + 1),
+  };
 }
 
-function generateAbsolute(size: number, amounts: Amounts): Field {
-  let maxCells = size * size;
-  let totalAmount = amounts.tree + amounts.bear + amounts.ljack;
-  let emptyCells = maxCells - totalAmount;
-  if (emptyCells < 0) {
-    throw new Error("size too small for given amount distribution");
-  }
-
-  let field: Array<Entity | undefined> = [];
-
-  for (let i = 0; i < amounts.tree; ++i) field.push(new Tree());
-  for (let i = 0; i < amounts.bear; ++i) field.push(new Bear());
-  for (let i = 0; i < amounts.ljack; ++i) field.push(new Ljack());
-  for (let i = 0; i < emptyCells; ++i) field.push(undefined);
-
-  // TODO: swappable rng impl
-  shuffleMutably(field);
-
-  return new ArrayField(size, field);
-}
-
-function shuffleMutably(xs: unknown[]) {
-  for (let i = xs.length - 1; i > 0; --i) {
-    let j = randomInt(0, i + 1);
-    [xs[i], xs[j]] = [xs[j], xs[i]];
-  }
-}
-
-function randomInt(minInclusive: number, maxExclusive: number): number {
-  let bound = maxExclusive - minInclusive;
-  return minInclusive + Math.trunc(Math.random() * bound);
-}
-
-class ArrayField implements Field {
+export class ArrayField<T> implements Field<T> {
   readonly #size: number;
-  #cells: Array<Entity | undefined>;
+  #cells: Array<T | undefined>;
 
-  constructor(size: number, cells: Array<Entity | undefined>) {
+  constructor(size: number, cells: Array<T | undefined>) {
     if (cells.length !== size * size) {
       throw new Error("cell length does not match given size");
     }
@@ -70,7 +48,7 @@ class ArrayField implements Field {
     this.#cells = cells;
   }
 
-  get(x: number, y: number): Entity | undefined {
+  get(x: number, y: number): T | undefined {
     if (this.#isInBounds(x, y)) {
       return this.#cells[this.#toIndex(x, y)];
     } else {
@@ -78,7 +56,7 @@ class ArrayField implements Field {
     }
   }
 
-  set(x: number, y: number, entity: Entity | undefined): void {
+  set(x: number, y: number, entity: T | undefined): void {
     if (this.#isInBounds(x, y)) {
       this.#cells[this.#toIndex(x, y)] = entity;
     }
@@ -88,7 +66,7 @@ class ArrayField implements Field {
     return this.#size;
   }
 
-  *iterRowMajor(): IterableIterator<[number, number, Entity | undefined]> {
+  *iterRowMajor(): IterableIterator<[number, number, T | undefined]> {
     for (let i = 0; i < this.#cells.length; i++) {
       let x = i % this.size;
       let y = Math.floor(i / this.size);
@@ -105,11 +83,7 @@ class ArrayField implements Field {
   }
 }
 
-export function empty(size: number): Field {
-  return new EmptyField(size);
-}
-
-class EmptyField implements Field {
+export class EmptyField implements Field<undefined> {
   readonly #size: number;
 
   constructor(size: number) {
@@ -126,5 +100,5 @@ class EmptyField implements Field {
     return this.#size;
   }
 
-  *iterRowMajor(): IterableIterator<[number, number, Entity | undefined]> {}
+  *iterRowMajor(): IterableIterator<[number, number, undefined]> {}
 }

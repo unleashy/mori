@@ -1,24 +1,14 @@
 import { type Interaction, NullInteraction } from "$lib/interaction.ts";
+import { type Neighbours } from "$lib/field.ts";
 
 export interface Entity {
   readonly colour: string;
 
-  step(neighbours: Neighbours): Interaction;
-}
-
-export interface Neighbours {
-  readonly n: Entity | undefined;
-  readonly ne: Entity | undefined;
-  readonly e: Entity | undefined;
-  readonly se: Entity | undefined;
-  readonly s: Entity | undefined;
-  readonly sw: Entity | undefined;
-  readonly w: Entity | undefined;
-  readonly nw: Entity | undefined;
+  step(neighbours: Neighbours<Entity>): Interaction<Entity>;
 }
 
 export class Tree implements Entity {
-  step(neighbours: Neighbours): Interaction {
+  step(neighbours: Neighbours<Entity>): Interaction<Entity> {
     return new NullInteraction();
   }
 
@@ -28,7 +18,7 @@ export class Tree implements Entity {
 }
 
 export class Bear implements Entity {
-  step(neighbours: Neighbours): Interaction {
+  step(neighbours: Neighbours<Entity>): Interaction<Entity> {
     return new NullInteraction();
   }
 
@@ -38,7 +28,7 @@ export class Bear implements Entity {
 }
 
 export class Ljack implements Entity {
-  step(neighbours: Neighbours): Interaction {
+  step(neighbours: Neighbours<Entity>): Interaction<Entity> {
     return new NullInteraction();
   }
 

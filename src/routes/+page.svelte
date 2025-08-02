@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { onDestroy } from "svelte";
-  import { empty, generate } from "$lib/field.ts";
+  import type { Entity } from "$lib/entity.ts";
+  import { type Field, EmptyField } from "$lib/field.ts";
+  import { generate } from "$lib/generator.ts";
   import { step } from "$lib/engine.ts";
   import Settings from "$lib/Settings.svelte";
   import FieldUi from "$lib/FieldUi.svelte";
@@ -18,7 +19,7 @@
   let playing = $state(false);
 
   const FIELD_SIZE = 50;
-  let field = $state(empty(FIELD_SIZE));
+  let field: Field<Entity> = $state(new EmptyField(FIELD_SIZE));
 
   const onGen = () => {
     field = generate(FIELD_SIZE, amounts);
