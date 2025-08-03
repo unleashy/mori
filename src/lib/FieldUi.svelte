@@ -14,8 +14,8 @@
   const render = (ctx: CanvasRenderingContext2D) => {
     ctx.clearRect(0, 0, RENDER_SIZE, RENDER_SIZE);
 
-    for (let [x, y, entity] of field.iterRowMajor()) {
-      if (!entity) continue;
+    for (let [x, y, entity] of field) {
+      if (entity === undefined) continue;
 
       ctx.fillStyle = entity.colour;
       ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);

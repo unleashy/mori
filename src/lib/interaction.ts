@@ -1,12 +1,24 @@
-import { type Field } from "$lib/field.ts";
+import { type Cell } from "$lib/field.ts";
+import { type Entity } from "$lib/entity.ts";
 
 export interface Interaction {
-  step(field: Field): void;
+  step(): void;
 }
 
 export class NullInteraction implements Interaction {
   step() {
     /* no-op */
+  }
+}
+
+export class SpawnInteraction implements Interaction {
+  constructor(
+    readonly cell: Cell,
+    readonly entity: Entity,
+  ) {}
+
+  step() {
+    this.cell.replace(this.entity);
   }
 }
 
@@ -17,9 +29,9 @@ export class CompositeInteraction implements Interaction {
     this.#interactions = interactions;
   }
 
-  step(field: Field): void {
+  step(): void {
     for (let interaction of this.#interactions) {
-      interaction.step(field);
+      interaction.step();
     }
   }
 }

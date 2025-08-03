@@ -3,7 +3,15 @@ export interface Entity {
 }
 
 export class Tree implements Entity {
-  #age = 12;
+  #age: number;
+
+  constructor(age: number = 12) {
+    this.#age = age;
+  }
+
+  static createSapling(): Tree {
+    return new Tree(0);
+  }
 
   get colour() {
     if (this.isSapling) {
@@ -21,6 +29,10 @@ export class Tree implements Entity {
 
   get isSapling(): boolean {
     return this.#age < 12;
+  }
+
+  get isAdult(): boolean {
+    return !this.isSapling;
   }
 
   get isElder(): boolean {

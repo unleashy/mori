@@ -6,31 +6,57 @@ export interface Field {
   get(x: number, y: number): Entity | undefined;
   set(x: number, y: number, entity: Entity | undefined): void;
 
-  iterRowMajor(): IterableIterator<[number, number, Entity | undefined]>;
+  [Symbol.iterator](): Iterator<[number, number, Entity | undefined]>;
 }
 
-export interface Neighbours {
-  readonly n: Entity | undefined;
-  readonly ne: Entity | undefined;
-  readonly e: Entity | undefined;
-  readonly se: Entity | undefined;
-  readonly s: Entity | undefined;
-  readonly sw: Entity | undefined;
-  readonly w: Entity | undefined;
-  readonly nw: Entity | undefined;
+function isInBounds(field: Field, x: number, y: number): boolean {
+  return 0 <= x && x <= field.size && 0 <= y && y <= field.size;
 }
 
-export function neighbours(field: Field, x: number, y: number): Neighbours {
-  return {
-    n: field.get(x, y - 1),
-    s: field.get(x, y + 1),
-    w: field.get(x - 1, y),
-    e: field.get(x + 1, y),
-    nw: field.get(x - 1, y - 1),
-    ne: field.get(x + 1, y - 1),
-    sw: field.get(x - 1, y + 1),
-    se: field.get(x + 1, y + 1),
-  };
+export interface Cell {
+  readonly entity: Entity | undefined;
+  replace(entity: Entity | undefined): void;
+  neighbours(): Iterable<Cell>;
+}
+
+export class FieldCell implements Cell {
+  readonly #field: Field;
+  readonly #x: number;
+  readonly #y: number;
+
+  constructor(field: Field, x: number, y: number) {
+    this.#field = field;
+    this.#x = x;
+    this.#y = y;
+  }
+
+  get entity(): Entity | undefined {
+    return this.#field.get(this.#x, this.#y);
+  }
+
+  replace(entity: Entity | undefined): void {
+    this.#field.set(this.#x, this.#y, entity);
+  }
+
+  *neighbours(): Iterable<Cell> {
+    // prettier-ignore
+    let coords = [
+      [this.#x,     this.#y - 1],
+      [this.#x,     this.#y + 1],
+      [this.#x - 1, this.#y    ],
+      [this.#x + 1, this.#y    ],
+      [this.#x - 1, this.#y - 1],
+      [this.#x + 1, this.#y - 1],
+      [this.#x - 1, this.#y + 1],
+      [this.#x + 1, this.#y + 1],
+    ];
+
+    for (let [x, y] of coords) {
+      if (isInBounds(this.#field, x, y)) {
+        yield new FieldCell(this.#field, x, y);
+      }
+    }
+  }
 }
 
 export class ArrayField implements Field {
@@ -47,7 +73,7 @@ export class ArrayField implements Field {
   }
 
   get(x: number, y: number): Entity | undefined {
-    if (this.#isInBounds(x, y)) {
+    if (isInBounds(this, x, y)) {
       return this.#cells[this.#toIndex(x, y)];
     } else {
       return undefined;
@@ -55,7 +81,7 @@ export class ArrayField implements Field {
   }
 
   set(x: number, y: number, entity: Entity | undefined): void {
-    if (this.#isInBounds(x, y)) {
+    if (isInBounds(this, x, y)) {
       this.#cells[this.#toIndex(x, y)] = entity;
     }
   }
@@ -64,20 +90,16 @@ export class ArrayField implements Field {
     return this.#size;
   }
 
-  *iterRowMajor(): IterableIterator<[number, number, Entity | undefined]> {
-    for (let i = 0; i < this.#cells.length; i++) {
+  *[Symbol.iterator](): Iterator<[number, number, Entity | undefined]> {
+    for (let i = 0; i < this.#cells.length; ++i) {
       let x = i % this.size;
-      let y = Math.floor(i / this.size);
+      let y = Math.trunc(i / this.size);
       yield [x, y, this.#cells[i]];
     }
   }
 
-  #isInBounds(x: number, y: number): boolean {
-    return 0 <= x && x <= this.#size && 0 <= y && y <= this.#size;
-  }
-
   #toIndex(x: number, y: number): number {
-    return x + Math.floor(y / this.size);
+    return x + y * this.size;
   }
 }
 
@@ -98,5 +120,5 @@ export class EmptyField implements Field {
     return this.#size;
   }
 
-  *iterRowMajor(): IterableIterator<[number, number, undefined]> {}
+  *[Symbol.iterator](): Iterator<[number, number, Entity | undefined]> {}
 }

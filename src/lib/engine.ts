@@ -1,19 +1,19 @@
-import { type Field, neighbours } from "$lib/field.ts";
+import { type Field, FieldCell } from "$lib/field.ts";
 import { type System } from "$lib/system.ts";
-import { type Interaction, CompositeInteraction } from "$lib/interaction.ts";
+import { CompositeInteraction, type Interaction } from "$lib/interaction.ts";
 
 export function step(systems: readonly System[], field: Field) {
-  let interactions = [];
+  let allInteractions = [];
 
-  for (let [x, y, entity] of field.iterRowMajor()) {
+  for (let [x, y, entity] of field) {
     if (entity === undefined) continue;
 
-    let entNeighbours = neighbours(field, x, y);
-    let entInteractions = systems
-      .map((it) => it.step(entity, entNeighbours))
+    let cell = new FieldCell(field, x, y);
+    let interactions = systems
+      .map((it) => it.step(cell))
       .filter(Boolean) as Interaction[];
-    interactions.push(...entInteractions);
+    allInteractions.push(...interactions);
   }
 
-  new CompositeInteraction(...interactions).step(field);
+  new CompositeInteraction(...allInteractions).step();
 }

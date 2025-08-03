@@ -1,3 +1,4 @@
+import { shuffleMutably } from "$lib/random.ts";
 import { type Entity, Tree, Bear, Ljack } from "$lib/entity.ts";
 import { type Field, ArrayField } from "$lib/field.ts";
 
@@ -35,16 +36,4 @@ function generateAbsolute(size: number, amounts: Amounts): Field {
   shuffleMutably(field);
 
   return new ArrayField(size, field);
-}
-
-function shuffleMutably(xs: unknown[]) {
-  for (let i = xs.length - 1; i > 0; --i) {
-    let j = randomInt(0, i + 1);
-    [xs[i], xs[j]] = [xs[j], xs[i]];
-  }
-}
-
-function randomInt(minInclusive: number, maxExclusive: number): number {
-  let bound = maxExclusive - minInclusive;
-  return minInclusive + Math.trunc(Math.random() * bound);
 }

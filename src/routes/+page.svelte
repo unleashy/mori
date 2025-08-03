@@ -21,15 +21,29 @@
   const FIELD_SIZE = 50;
   let field: Field = $state(new EmptyField(FIELD_SIZE));
 
+  let month = $state(1);
+  let year = $state(1);
+  const stepDate = () => {
+    month += 1;
+
+    if (month > 12) {
+      year += 1;
+      month = 1;
+    }
+  };
+
   const onGen = () => {
     field = generate(FIELD_SIZE, amounts);
     controlsOpen = true;
     playing = false;
+    month = 1;
+    year = 1;
   };
 
   const systems = Object.freeze([new TreeSystem()]);
   const onStep = () => {
     step(systems, field);
+    stepDate();
   };
 
   const PLAY_SPEED_MS = 200;
@@ -69,7 +83,10 @@
 
     <details bind:open={controlsOpen}>
       <summary>Simulation</summary>
-      <Controls bind:playing {onStep} />
+      <div class="flow" style:--flow-size="var(--size_-2)">
+        <p>Year {year} • Month {month}</p>
+        <Controls bind:playing {onStep} />
+      </div>
     </details>
   </div>
 </main>
