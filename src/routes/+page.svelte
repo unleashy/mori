@@ -6,8 +6,6 @@
   import Settings from "$lib/Settings.svelte";
   import FieldUi from "$lib/FieldUi.svelte";
   import Controls from "$lib/Controls.svelte";
-  import "@fontsource/kanchenjunga/latin.css";
-  import "$lib/style.css";
 
   let amounts = $state({
     tree: 40,

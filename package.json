@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@fontsource/kanchenjunga": "^5.2.1",
-    "@sveltejs/adapter-node": "^5.2.13",
+    "@sveltejs/adapter-static": "^3.0.8",
     "@sveltejs/kit": "^2.25.1",
     "@sveltejs/vite-plugin-svelte": "^6.1.0",
     "@unleashy/eslint": "unleashy/eslint#9f3d5bef3b3cd1dbdf45b7e4df3749eb974609e7",
