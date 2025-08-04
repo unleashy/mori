@@ -6,6 +6,10 @@ const config = {
   preprocess: vitePreprocess(),
   kit: {
     adapter: adapter(),
+    paths: {
+      base: "/~mori",
+      relative: false,
+    },
   },
 };
 
