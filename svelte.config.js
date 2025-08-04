@@ -8,6 +8,7 @@ const config = {
     adapter: adapter(),
     paths: {
       base: "/~mori",
+      relative: false,
     },
   },
 };
