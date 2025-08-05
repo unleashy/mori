@@ -1,0 +1,8 @@
+{
+  "name": "mori",
+  "compatibility_date": "2025-08-05",
+  "assets": {
+    "directory": "./build/",
+    "html_handling": "drop-trailing-slash"
+  }
+}
