@@ -9,6 +9,10 @@ const config = {
       pages: "build/~mori",
       assets: "build/~mori",
     }),
+    paths: {
+      base: "/~mori",
+      relative: false,
+    },
   },
 };
 
