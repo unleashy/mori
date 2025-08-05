@@ -1,6 +1,7 @@
 {
   "name": "mori",
   "compatibility_date": "2025-08-05",
+  "route": "emmanuelle.dev/~mori/*",
   "assets": {
     "directory": "./build/",
     "html_handling": "drop-trailing-slash"
