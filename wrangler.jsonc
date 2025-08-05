@@ -3,6 +3,6 @@
   "compatibility_date": "2025-08-05",
   "route": "emmanuelle.dev/~mori/*",
   "assets": {
-    "directory": "./build/"
+    "directory": "./.svelte-kit/cloudflare"
   }
 }
