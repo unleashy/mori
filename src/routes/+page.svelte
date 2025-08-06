@@ -60,7 +60,7 @@
 </script>
 
 <svelte:head>
-  <title>森 Mori</title>
+  <title>Mori</title>
 </svelte:head>
 
 <header>
