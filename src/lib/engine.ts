@@ -15,5 +15,5 @@ export function step(systems: readonly System[], field: Field) {
     allInteractions.push(...interactions);
   }
 
-  new CompositeInteraction(...allInteractions).step();
+  new CompositeInteraction(allInteractions).step();
 }

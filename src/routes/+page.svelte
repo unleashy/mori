@@ -1,7 +1,7 @@
 <script lang="ts">
   import { type Field, EmptyField } from "$lib/field.ts";
   import { generate } from "$lib/generator.ts";
-  import { TreeSystem } from "$lib/system.ts";
+  import { LjackSystem, TreeSystem } from "$lib/system.ts";
   import { step } from "$lib/engine.ts";
   import Settings from "$lib/Settings.svelte";
   import FieldUi from "$lib/FieldUi.svelte";
@@ -38,7 +38,7 @@
     year = 1;
   };
 
-  const systems = Object.freeze([new TreeSystem()]);
+  const systems = Object.freeze([new TreeSystem(), new LjackSystem()]);
   const onStep = () => {
     step(systems, field);
     stepDate();

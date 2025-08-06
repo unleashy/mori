@@ -41,3 +41,18 @@ export function sample<T>(items: readonly T[]): T {
   if (items.length === 0) throw new RangeError("no items to sample");
   return items[randomInt(0, items.length)];
 }
+
+export function sampleUpToN<T>(items: readonly T[], n: number): T[] {
+  let bound = Math.min(n, items.length);
+  let selected = [];
+
+  for (let [i, item] of items.entries()) {
+    if (randomInt(0, bound - i) < bound - selected.length) {
+      selected.push(item);
+    }
+
+    if (selected.length === n) break;
+  }
+
+  return selected;
+}
