@@ -8,16 +8,16 @@
   import Controls from "$lib/Controls.svelte";
 
   let amounts = $state({
-    tree: 40,
+    tree: 30,
     bear: 5,
     ljack: 2.5,
   });
 
-  let controlsOpen = $state(false);
-  let playing = $state(false);
-
   const FIELD_SIZE = 50;
   let field: Field = $state(new EmptyField(FIELD_SIZE));
+
+  let controlsOpen = $state(false);
+  let playing = $state(false);
 
   let month = $state(1);
   let year = $state(1);
@@ -57,6 +57,13 @@
       clearInterval(playTimer);
     };
   });
+
+  const setPlaying = (newPlaying: boolean) => {
+    playing = newPlaying;
+    if (playing) {
+      onStep();
+    }
+  };
 </script>
 
 <svelte:head>
@@ -83,7 +90,7 @@
       <summary>Simulation</summary>
       <div class="flow" style:--flow-size="var(--size_-2)">
         <p>Year {year} • Month {month}</p>
-        <Controls bind:playing {onStep} />
+        <Controls bind:playing={() => playing, setPlaying} {onStep} />
       </div>
     </details>
   </div>
@@ -109,6 +116,7 @@
   main {
     display: flex;
     flex-wrap: wrap;
+    align-items: start;
     gap: var(--size_0);
 
     & > :last-child {
