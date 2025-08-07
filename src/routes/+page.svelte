@@ -70,37 +70,46 @@
   <title>Mori</title>
 </svelte:head>
 
-<header>
-  <h1>
-    <span lang="ja">森</span>&nbsp;Mori
-    <span class="subtitle">a forest simulation</span>
-  </h1>
-</header>
+<div class="wrapper">
+  <header>
+    <h1>
+      <span lang="ja">森</span>&nbsp;Mori
+      <span class="subtitle">a forest simulation</span>
+    </h1>
+  </header>
 
-<main>
-  <FieldUi {field} />
+  <main>
+    <FieldUi {field} />
 
-  <div class="flow">
-    <details open>
-      <summary>Settings</summary>
-      <Settings {onGen} bind:amounts />
-    </details>
+    <div class="flow">
+      <details open>
+        <summary>Settings</summary>
+        <div>
+          <Settings {onGen} bind:amounts />
+        </div>
+      </details>
 
-    <details bind:open={controlsOpen}>
-      <summary>Simulation</summary>
-      <div class="flow" style:--flow-size="var(--size_-2)">
-        <p>Year {year} • Month {month}</p>
-        <Controls bind:playing={() => playing, setPlaying} {onStep} />
-      </div>
-    </details>
-  </div>
-</main>
+      <details bind:open={controlsOpen}>
+        <summary>Simulation</summary>
+        <div class="flow" style:--flow-size="var(--size_-2)">
+          <p>Year {year} • Month {month}</p>
+          <Controls bind:playing={() => playing, setPlaying} {onStep} />
+        </div>
+      </details>
+    </div>
+  </main>
+</div>
 
 <style>
-  header,
-  main {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+
+    max-width: calc(75vmin + 45%);
+
     padding-inline: var(--size-fluid_4);
-    margin-block: var(--size-fluid_4);
+    margin: var(--size-fluid_4) auto;
+    gap: var(--size-fluid_4);
   }
 
   h1 {
@@ -134,7 +143,7 @@
     user-select: none;
   }
 
-  summary + :global(*) {
+  summary + * {
     margin-top: var(--flow-size, var(--size_-2));
   }
 </style>
