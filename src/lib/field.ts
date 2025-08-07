@@ -16,7 +16,7 @@ function isInBounds(field: Field, x: number, y: number): boolean {
 export interface Cell {
   readonly entity: Entity | undefined;
   replace(entity: Entity | undefined): void;
-  neighbours(): Iterable<Cell>;
+  neighbours(): Cell[];
 }
 
 export class FieldCell implements Cell {
@@ -38,24 +38,19 @@ export class FieldCell implements Cell {
     this.#field.set(this.#x, this.#y, entity);
   }
 
-  *neighbours(): Iterable<Cell> {
-    // prettier-ignore
-    let coords = [
-      [this.#x,     this.#y - 1],
-      [this.#x,     this.#y + 1],
-      [this.#x - 1, this.#y    ],
-      [this.#x + 1, this.#y    ],
+  neighbours(): Cell[] {
+    return [
+      [this.#x, this.#y - 1],
+      [this.#x, this.#y + 1],
+      [this.#x - 1, this.#y],
+      [this.#x + 1, this.#y],
       [this.#x - 1, this.#y - 1],
       [this.#x + 1, this.#y - 1],
       [this.#x - 1, this.#y + 1],
       [this.#x + 1, this.#y + 1],
-    ];
-
-    for (let [x, y] of coords) {
-      if (isInBounds(this.#field, x, y)) {
-        yield new FieldCell(this.#field, x, y);
-      }
-    }
+    ]
+      .filter(([x, y]) => isInBounds(this.#field, x, y))
+      .map(([x, y]) => new FieldCell(this.#field, x, y));
   }
 }
 

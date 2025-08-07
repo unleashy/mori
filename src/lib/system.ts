@@ -59,12 +59,12 @@ export class LjackSystem implements System {
   }
 }
 
-function emptyNeighbours(neighbours: Iterable<Cell>): Cell[] {
-  return [...neighbours].filter((it) => it.entity === undefined);
+function emptyNeighbours(neighbours: Cell[]): Cell[] {
+  return neighbours.filter((it) => it.entity === undefined);
 }
 
-function treeNeighbours(neighbours: Iterable<Cell>): Cell[] {
-  return [...neighbours].filter(
+function treeNeighbours(neighbours: Cell[]): Cell[] {
+  return neighbours.filter(
     (it) => it.entity instanceof Tree && it.entity.isAdult,
   );
 }
